@@ -71,26 +71,57 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
           it('changes visible when the menu icon is clicked', function()){
-            expect
-          }
+
+            //The menu should be visible when it is clicked
+            $('.menu-icon-link').trigger('click');
+            expect($('body').hasClass('menu-hidden')).toBe(false);
+
+            //The menu should be hidden when it is clicked again
+            $('.menu-icon-link').trigger('click');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+    });
 
+
+    /* A new test suite named "Initial Entries" */
     describe('Initial Entries', function() {
-        /* TODO: Write a test that ensures when the loadFeed
+        /* A test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
          * Remember, loadFeed() is asynchronous so this test wil require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+         beforeEach(function(done){
+            loadFeed(0,done);
+        });
+        it('loadFeed function is called, and there is at least a single entry', function(){
+            expect($(.feed, .entry).length).toBeGreaterThan(0);
+        });
 
-    /* TODO: Write a new test suite named "New Feed Selection"
+    });
 
-        /* TODO: Write a test that ensures when a new feed is loaded
+    /* A new test suite named "New Feed Selection"*/
+    describe('New Feed Selection', function() {
+        /* A test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
 
-    });
+        beforeEach(function(done) {
+                $('.feed').empty();
+                loadFeed(0, function(){
+                    entryTexts = $('.feed').find('h2').text();
+                    loadFeed(1,done);
+                });
+            });
+            it('change of content occurs when new content is loaded',function(done){
+                expect($('.feed').find('h2').text()).not.toBe(entryTexts);
+                done();
+            });
+        // Initial feed post testing
+            afterEach(function(done) {
+                loadFeed(0, done);
+            });
+        });
 }());
