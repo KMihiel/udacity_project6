@@ -119,7 +119,7 @@ $(function() {
                 expect($('.feed').find('h2').text()).not.toBe(entryTexts);
                 done();
             });
-        // Initial feed post testing
+        // Initial feed restored post testing
             afterEach(function(done) {
                 loadFeed(0, done);
             });
